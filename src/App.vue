@@ -1,29 +1,30 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
-  </div>
+  <v-app>
+    <v-container>
+      <v-card width="800" class="mx-auto mt-5">
+        <v-card-title>
+          <h1 class="display-1">Buckhill Todo App!</h1>
+        </v-card-title>
+        <TodoList />
+      </v-card>
+    </v-container>
+    <v-overlay :value="isLoading">
+      <v-progress-circular indeterminate />
+    </v-overlay>
+  </v-app>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import { mapState } from "vuex";
+import Vuetify from 'vuetify';
+import TodoList from "./components/TodoList.vue";
 
-export default Vue.extend({
-  name: "App",
+export default {
   components: {
-    HelloWorld
-  }
-});
+    TodoList,
+  },
+  computed: mapState([
+    'isLoading',
+  ]),
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
