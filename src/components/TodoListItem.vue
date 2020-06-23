@@ -29,6 +29,7 @@
               :rules="[rules.required, rules.counter]"
               counter
               maxlength="255"
+              autofocus
             />
             <v-checkbox
               label="Due at"
@@ -51,7 +52,7 @@
 <script lang="ts">
 import { mapActions } from "vuex";
 import Vue from "vue";
-import Vuetify from 'vuetify';
+import Vuetify from "vuetify";
 import { TodoItem } from "../store";
 
 interface Data {
@@ -71,7 +72,11 @@ interface Computed {
   getUpdatedTodoItem: TodoItem;
 }
 
-export default Vue.extend<Data, Methods, Computed, {}> ({
+interface Props {
+  todo: TodoItem;
+}
+
+export default Vue.extend<Data, Methods, Computed, Props> ({
   props: {
     todo: {
       type: Object,
@@ -80,11 +85,11 @@ export default Vue.extend<Data, Methods, Computed, {}> ({
   },
   data() {
     return {
-      isItemEdit: true,
+      isItemEdit: this.todo.id === -1,
       hasDueAt: false,
       rules: {
-        required: value => !!value || 'Required.',
-        counter: value => value.length <= 255 || 'Max 255 characters',
+        required: (value: string) => !!value || 'Required.',
+        counter: (value: string) => value.length <= 255 || 'Max 255 characters',
       },
     }
   },
@@ -110,9 +115,7 @@ export default Vue.extend<Data, Methods, Computed, {}> ({
   computed: {
     getUpdatedTodoItem() {
       return {
-        id: this.todo.id,
-        title: this.todo.title,
-        done: this.todo.done,
+        ...this.todo,
         due_at: this.hasDueAt ? this.todo.due_at : null,
       } as TodoItem;
     },

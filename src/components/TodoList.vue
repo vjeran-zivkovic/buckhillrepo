@@ -1,9 +1,9 @@
 <template>
   <div>
     <TodoTextInput />
-    <v-list v-if="todos.length" three-line subheader>
+    <v-list v-if="currentPageTodos.length" three-line subheader>
       <TodoListItem
-        v-for="todo in todos"
+        v-for="todo in currentPageTodos"
         :key="todo.id"
         :todo="todo"
       ></TodoListItem>
@@ -15,18 +15,24 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+import Vuetify from "vuetify";
+import Vue from "vue";
 import TodoTextInput from "./TodoTextInput.vue";
 import TodoListItem from "./TodoListItem.vue";
-import Vuetify from 'vuetify';
+import { TodoItem } from "../store";
 
-export default {
+interface Computed {
+  currentPageTodos: TodoItem[];
+}
+
+export default Vue.extend<{}, {}, Computed> ({
   components: {
     TodoTextInput,
     TodoListItem,
   },
-  computed: mapState([
-    'todos',
+  computed: mapGetters([
+    'currentPageTodos',
   ]),
-}
+})
 </script>

@@ -11,20 +11,53 @@
     <v-overlay :value="isLoading">
       <v-progress-circular indeterminate />
     </v-overlay>
+    <div class="text-center">
+      <v-pagination
+        :value="page"
+        :length="totalPages"
+        @input="onPageChange"
+      ></v-pagination>
+    </div>
   </v-app>
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
-import Vuetify from 'vuetify';
+import { mapState, mapActions, mapGetters } from "vuex";
+import Vuetify from "vuetify";
+import Vue from "vue";
 import TodoList from "./components/TodoList.vue";
 
-export default {
+interface Methods {
+  onPageChange: (page: number) => void;
+  setPage: (page: number) => void;
+}
+
+interface Computed {
+  isLoading: boolean;
+  page: number;
+  totalPages: number;
+}
+
+export default Vue.extend<{}, Methods, Computed> ({
   components: {
     TodoList,
   },
-  computed: mapState([
-    'isLoading',
-  ]),
-};
+  methods: {
+    onPageChange(page) {
+      this.setPage(page);
+    },
+    ...mapActions([
+      'setPage',
+    ]),
+  },
+  computed: {
+    ...mapState([
+      'isLoading',
+      'page',
+    ]),
+    ...mapGetters([
+      'totalPages',
+    ]),
+  }
+})
 </script>

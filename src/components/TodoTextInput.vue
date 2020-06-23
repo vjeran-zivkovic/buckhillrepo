@@ -12,7 +12,7 @@
 <script lang="ts">
 import { mapActions } from "vuex";
 import Vue from "vue";
-import Vuetify from 'vuetify';
+import Vuetify from "vuetify";
 
 interface Data {
   todoInputText: string;
@@ -20,7 +20,7 @@ interface Data {
 
 interface Methods {
   onInputEnterKeydown: () => void;
-  addTodo: (title: string) => void;
+  addNewTodo: (title: string) => void;
 }
 
 export default Vue.extend<Data, Methods, {}> ({
@@ -33,11 +33,11 @@ export default Vue.extend<Data, Methods, {}> ({
     onInputEnterKeydown() {
       const todoTitle = this.todoInputText.trim();
       if (todoTitle.length === 0) return;
-      this.addTodo(todoTitle);
+      this.addNewTodo(todoTitle);
       this.todoInputText = "";
     },
     ...mapActions([
-      'addTodo',
+      'addNewTodo',
     ]),
   },
 })
