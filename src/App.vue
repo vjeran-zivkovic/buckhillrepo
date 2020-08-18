@@ -3,7 +3,7 @@
     <v-container>
       <v-card width="800" class="mx-auto mt-5">
         <v-card-title>
-          <h1 class="display-1">Buckhill Todo App!</h1>
+          <h1 class="display-1">Your Todo App!</h1>
         </v-card-title>
         <TodoList />
       </v-card>
